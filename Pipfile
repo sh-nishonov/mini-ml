@@ -8,8 +8,11 @@ scikit-learn = "*"
 numpy = "*"
 pandas = "*"
 pre-commit = "*"
+black = "*"
+matplotlib = "*"
 
 [dev-packages]
+ipykernel = "*"
 
 [requires]
 python_version = "3.9"
