@@ -10,10 +10,10 @@ class Regression():
         #self.gradient_descent = False
         self.n_iterations = n_iterations
         self.learning_rate = learning_rate
-        
 
-    
-        
+
+
+
 
     def fit(self, X, y):
         # X = self._transform_x(X)
