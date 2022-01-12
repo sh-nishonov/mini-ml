@@ -1,3 +1,1 @@
-__all__ = ["metrics",
-            "regression",
-            "test"]
+__all__ = ["metrics", "regression", "test"]
