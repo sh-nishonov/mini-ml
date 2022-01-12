@@ -1,3 +1,3 @@
-from .MultiLinearRegression import LinearRegression
+from .regression import LinearRegression
 
 __all__ = ["LinearRegression"]

@@ -1,5 +1,4 @@
 import numpy as np
-import copy
 import math
 
 
@@ -8,6 +7,7 @@ class Regression:
 
         self.n_iterations = n_iterations
         self.learning_rate = learning_rate
+        
 
     def fit(self, X, y):
 
@@ -18,7 +18,7 @@ class Regression:
         )
         self.bias = 0
 
-        for i in range(self.n_iterations):
+        for _ in range(self.n_iterations):
             y_hat = np.dot(X, self.weights) + self.bias  # y_hat = X*W+b
 
             dw = (1 / n_samples) * np.dot(X.T, (y_hat - y))
@@ -31,9 +31,6 @@ class Regression:
         """
         y = b_0 + b_1*x + ... + b_i*x_i
         """
-        print(X)
-
-        print(X)
         y_approximated = np.dot(X, self.weights)
         return y_approximated
 
@@ -41,7 +38,7 @@ class Regression:
 class LinearRegression(Regression):
     def __init__(self, n_iterations=100, learning_rate=0.001, gradient_descent=True):
         self.gradient_descent = gradient_descent
-        super(LinearRegression, self).__init__(
+        super().__init__(
             n_iterations=n_iterations, learning_rate=learning_rate
         )
 
@@ -52,10 +49,26 @@ class LinearRegression(Regression):
             β = (X^T X)^-1 X^T y
             Estimates both the intercept and all coefficients.
             """
-            X_T = X.transpose()
-
-            inversed = np.linalg.inv(X_T.dot(X))
-            self.weights = inversed.dot(X_T).dot(y)
-            print(self.weights)
+            
+            XtX = np.dot(X.T, X)
+            inversed = np.linalg.inv(XtX)
+            Xty = np.dot(X.T, y)
+            self.weights = inversed.dot(Xty)
+            
         else:
             super(LinearRegression, self).fit(X, y)
+
+class RidgeRegression(Regression):
+    def __init__(self, alpha, n_iterations=None, learning_rate=None):
+        self.alpha = alpha
+        super().__init__(n_iterations, learning_rate)
+
+    def fit(self, X, y):
+        """β=(X^T * X+λI_prime)^(-1)X^Ty."""
+        XtX = np.dot(X.T, X)
+        I_prime = np.eye(X.shape[1]) # creates Identity matrix with the size of (X.shape[1], X.shape[1])
+        I_prime[0, 0] = 0
+        XtX_alpha_inverse = np.linalg.inv(XtX + self.alpha*I_prime)
+        Xty = np.dot(X.T, y)
+        self.weights = np.dot(XtX_alpha_inverse, Xty)
+
